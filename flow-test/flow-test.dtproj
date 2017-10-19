@@ -26,7 +26,7 @@
           <SSIS:Property SSIS:Name="CreatorComputerName">SHANE-PC</SSIS:Property>
           <SSIS:Property SSIS:Name="Description">
           </SSIS:Property>
-          <SSIS:Property SSIS:Name="PasswordVerifier" SSIS:Sensitive="1">AQAAANCMnd8BFdERjHoAwE/Cl+sBAAAADNFXVtRucEGqe04Lr+PfuwAAAAACAAAAAAAQZgAAAAEAACAAAADRUM6z2+QZU2LCk7Py92DOlwuV2HVi5F+Gy+CpBDha7QAAAAAOgAAAAAIAACAAAAD0jN34/6vrNSw0yNBBbIaxmEqlU0CSdQm2OYMhhvOsIpAAAACj15fH2CN/P0wS9VKARyRYuLcHgqEF+NGXvaj/nx87rrhx0jJtaC6sNrw73p7x1pPMV0DcYDl0+XVk8fARJ1OZEG5xa00DmEwS7uoTlFunlP71qvkP9rPbIUzAxV9/jCs2jKDqkA0ZhVdXW9ccIZ9JzA+jpGjvDvsGdckqtNnQmi6uRnCAS+veTCYLi/xZcmpAAAAA6ZytY6yWXKeKZAgNgt8+edRUGSO2W09cQRQCA9nGRO2Z7L2hNzgCauGciZiiCNJClX4tSDvzy9ZuCz7ZzN0Uyw==</SSIS:Property>
+          <SSIS:Property SSIS:Name="PasswordVerifier" SSIS:Sensitive="1">AQAAANCMnd8BFdERjHoAwE/Cl+sBAAAAl/IwQde/BEiv6f8YwHfA1AAAAAACAAAAAAADZgAAwAAAABAAAAAmldwQHCKpJA54nXvvooqaAAAAAASAAACgAAAAEAAAAE+oKwvethVsdF7qpdhQQe6IAAAAihyu5GeN2HLQcdlnNl+j6QqI4VEAK+CL5xVmARsToIuYTYHr0pTQOyLU4JsdsD8oRAEQrPcqfXMiK06+jG+DKqFbpXwo4IKUdEZgnpYsmSF46utFCtgh7F23c99hCuEwmEyBVcheMjyqSJLTMlEA+N9IrGT1AEfJ1ZPTeeQ1GyBbZ6/4CddoZxQAAADoouRHHz9SjMG21oc5NE6pDn+MvQ==</SSIS:Property>
           <SSIS:Property SSIS:Name="FormatVersion">1</SSIS:Property>
         </SSIS:Properties>
         <SSIS:Packages>
@@ -42,10 +42,10 @@
                 <SSIS:Property SSIS:Name="Name">Package</SSIS:Property>
                 <SSIS:Property SSIS:Name="VersionMajor">1</SSIS:Property>
                 <SSIS:Property SSIS:Name="VersionMinor">0</SSIS:Property>
-                <SSIS:Property SSIS:Name="VersionBuild">6</SSIS:Property>
+                <SSIS:Property SSIS:Name="VersionBuild">8</SSIS:Property>
                 <SSIS:Property SSIS:Name="VersionComments">
                 </SSIS:Property>
-                <SSIS:Property SSIS:Name="VersionGUID">{047085D0-E8FA-498E-89B7-D66ED3DF7CFE}</SSIS:Property>
+                <SSIS:Property SSIS:Name="VersionGUID">{565B4227-46D5-4004-9EE8-CF72D4A24EE7}</SSIS:Property>
                 <SSIS:Property SSIS:Name="PackageFormatVersion">8</SSIS:Property>
                 <SSIS:Property SSIS:Name="Description">
                 </SSIS:Property>
@@ -108,7 +108,7 @@
                     <SSIS:Property SSIS:Name="IncludeInDebugDump">0</SSIS:Property>
                     <SSIS:Property SSIS:Name="Required">0</SSIS:Property>
                     <SSIS:Property SSIS:Name="Sensitive">0</SSIS:Property>
-                    <SSIS:Property SSIS:Name="Value">C:\Users\shane\OneDrive\Work\MDB\Current process\4 - Saved as CSV for loading into Lavastorm\drugs-list.txt</SSIS:Property>
+                    <SSIS:Property SSIS:Name="Value">C:\Users\shane.hopcroft\Desktop\FlowTest\drugs-list.txt</SSIS:Property>
                     <SSIS:Property SSIS:Name="DataType">18</SSIS:Property>
                   </SSIS:Properties>
                 </SSIS:Parameter>
@@ -199,6 +199,8 @@
                     <SSIS:Property SSIS:Name="IncludeInDebugDump">0</SSIS:Property>
                     <SSIS:Property SSIS:Name="Required">0</SSIS:Property>
                     <SSIS:Property SSIS:Name="Sensitive">0</SSIS:Property>
+                    <SSIS:Property SSIS:Name="Value">
+                    </SSIS:Property>
                     <SSIS:Property SSIS:Name="DataType">18</SSIS:Property>
                   </SSIS:Properties>
                 </SSIS:Parameter>
@@ -288,7 +290,7 @@
                     <SSIS:Property SSIS:Name="IncludeInDebugDump">0</SSIS:Property>
                     <SSIS:Property SSIS:Name="Required">0</SSIS:Property>
                     <SSIS:Property SSIS:Name="Sensitive">0</SSIS:Property>
-                    <SSIS:Property SSIS:Name="Value">C:\Users\shane\OneDrive\Work\MDB\Current process\4 - Saved as CSV for loading into Lavastorm\errors.txt</SSIS:Property>
+                    <SSIS:Property SSIS:Name="Value">C:\Users\shane.hopcroft\Desktop\FlowTest\errors.txt</SSIS:Property>
                     <SSIS:Property SSIS:Name="DataType">18</SSIS:Property>
                   </SSIS:Properties>
                 </SSIS:Parameter>
@@ -379,6 +381,8 @@
                     <SSIS:Property SSIS:Name="IncludeInDebugDump">0</SSIS:Property>
                     <SSIS:Property SSIS:Name="Required">0</SSIS:Property>
                     <SSIS:Property SSIS:Name="Sensitive">0</SSIS:Property>
+                    <SSIS:Property SSIS:Name="Value">
+                    </SSIS:Property>
                     <SSIS:Property SSIS:Name="DataType">18</SSIS:Property>
                   </SSIS:Properties>
                 </SSIS:Parameter>
@@ -468,7 +472,7 @@
                     <SSIS:Property SSIS:Name="IncludeInDebugDump">0</SSIS:Property>
                     <SSIS:Property SSIS:Name="Required">0</SSIS:Property>
                     <SSIS:Property SSIS:Name="Sensitive">0</SSIS:Property>
-                    <SSIS:Property SSIS:Name="Value">C:\Users\shane\OneDrive\Work\MDB\Current process\4 - Saved as CSV for loading into Lavastorm\output.txt</SSIS:Property>
+                    <SSIS:Property SSIS:Name="Value">C:\Users\shane.hopcroft\Desktop\FlowTest\output.txt</SSIS:Property>
                     <SSIS:Property SSIS:Name="DataType">18</SSIS:Property>
                   </SSIS:Properties>
                 </SSIS:Parameter>
@@ -559,6 +563,8 @@
                     <SSIS:Property SSIS:Name="IncludeInDebugDump">0</SSIS:Property>
                     <SSIS:Property SSIS:Name="Required">0</SSIS:Property>
                     <SSIS:Property SSIS:Name="Sensitive">0</SSIS:Property>
+                    <SSIS:Property SSIS:Name="Value">
+                    </SSIS:Property>
                     <SSIS:Property SSIS:Name="DataType">18</SSIS:Property>
                   </SSIS:Properties>
                 </SSIS:Parameter>
@@ -610,7 +616,7 @@
         <ConnectionProviderMappings />
         <ConnectionSecurityMappings />
         <DatabaseStorageLocations />
-        <TargetServerVersion>SQLServer2017</TargetServerVersion>
+        <TargetServerVersion>SQLServer2014</TargetServerVersion>
         <ParameterConfigurationValues>
           <ConfigurationSetting>
             <Id>LastModifiedTime</Id>
