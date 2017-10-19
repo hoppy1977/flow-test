@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Windows.Forms;
-//using Microsoft.SqlServer;
 using Microsoft.SqlServer.Dts.Runtime;
-using Application = Microsoft.SqlServer.Dts.Runtime.Application;
 
 namespace Driver
 {
@@ -15,27 +13,20 @@ namespace Driver
 
 		private void executeButton_Click(object sender, EventArgs e)
 		{
-			string pkgLocation;
-			Package pkg;
-			Application app;
-			DTSExecResult pkgResults;
+			var pkgLocation = @"D:\Code\flow-test\flow-test\Package.dtsx";
 
-			pkgLocation = @"D:\Code\flow-test\flow-test\Package.dtsx";
+			var app = new Microsoft.SqlServer.Dts.Runtime.Application();
+			var pkg = app.LoadPackage(pkgLocation, null);
+			pkg.Parameters["InputFile"].Value = @"C:\Users\shane.hopcroft\Desktop\FlowTest\drugs-list.txt";
+			pkg.Parameters["OutputFile"].Value = @"C:\Users\shane.hopcroft\Desktop\FlowTest\output.txt";
+			pkg.Parameters["ErrorsFile"].Value = @"C:\Users\shane.hopcroft\Desktop\FlowTest\errors.txt";
 
-			app = new Application();
-			pkg = app.LoadPackage(pkgLocation, null);
-
-			//Variables vars;
-			//vars = pkg.Variables;
-			//vars["A_Variable"].Value = "Some value";
-
-			//pkgResults = pkg.Execute(null, vars, null, null, null);
-			pkgResults = pkg.Execute();
+			var pkgResults = pkg.Execute();
 
 			if (pkgResults == DTSExecResult.Success)
-				Console.WriteLine("Package ran successfully");
+				Console.WriteLine(@"Package ran successfully");
 			else
-				Console.WriteLine("Package failed");
+				Console.WriteLine(@"Package failed");
 		}
 
 		private void closeButton_Click(object sender, EventArgs e)
