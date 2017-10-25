@@ -17,7 +17,7 @@ namespace Driver
 
 			var app = new Microsoft.SqlServer.Dts.Runtime.Application();
 			var pkg = app.LoadPackage(pkgLocation, null);
-			pkg.Parameters["InputFile"].Value = @"C:\Users\shane.hopcroft\Desktop\FlowTest\drugs-list.txt";
+			pkg.Parameters["InputFile"].Value = @"C:\Users\shane.hopcroft\Desktop\FlowTest\input.txt";
 			pkg.Parameters["OutputFile"].Value = @"C:\Users\shane.hopcroft\Desktop\FlowTest\output.txt";
 			pkg.Parameters["ErrorsFile"].Value = @"C:\Users\shane.hopcroft\Desktop\FlowTest\errors.txt";
 
