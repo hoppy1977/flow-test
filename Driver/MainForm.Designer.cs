@@ -30,6 +30,7 @@
 		{
 			this.executeButton = new System.Windows.Forms.Button();
 			this.closeButton = new System.Windows.Forms.Button();
+			this.splitFileButton = new System.Windows.Forms.Button();
 			this.SuspendLayout();
 			// 
 			// executeButton
@@ -38,7 +39,7 @@
 			this.executeButton.Name = "executeButton";
 			this.executeButton.Size = new System.Drawing.Size(75, 23);
 			this.executeButton.TabIndex = 0;
-			this.executeButton.Text = "Engage!";
+			this.executeButton.Text = "&Engage!";
 			this.executeButton.UseVisualStyleBackColor = true;
 			this.executeButton.Click += new System.EventHandler(this.executeButton_Click);
 			// 
@@ -52,11 +53,22 @@
 			this.closeButton.UseVisualStyleBackColor = true;
 			this.closeButton.Click += new System.EventHandler(this.closeButton_Click);
 			// 
+			// splitFileButton
+			// 
+			this.splitFileButton.Location = new System.Drawing.Point(242, 46);
+			this.splitFileButton.Name = "splitFileButton";
+			this.splitFileButton.Size = new System.Drawing.Size(75, 23);
+			this.splitFileButton.TabIndex = 2;
+			this.splitFileButton.Text = "&Split file";
+			this.splitFileButton.UseVisualStyleBackColor = true;
+			this.splitFileButton.Click += new System.EventHandler(this.splitFileButton_Click);
+			// 
 			// MainForm
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.ClientSize = new System.Drawing.Size(552, 350);
+			this.Controls.Add(this.splitFileButton);
 			this.Controls.Add(this.closeButton);
 			this.Controls.Add(this.executeButton);
 			this.Name = "MainForm";
@@ -69,6 +81,7 @@
 
 		private System.Windows.Forms.Button executeButton;
 		private System.Windows.Forms.Button closeButton;
+		private System.Windows.Forms.Button splitFileButton;
 	}
 }
 
