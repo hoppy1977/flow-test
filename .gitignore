@@ -12,6 +12,9 @@ bld/
 [Oo]bj/
 [Ll]og/
 
+# Packages
+packages/
+
 # Executables
 *.exe
 *.exe.config
