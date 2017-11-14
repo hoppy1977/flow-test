@@ -1,8 +1,16 @@
 ﻿using System;
+using System.Data;
 using System.IO;
+using System.Linq;
 using System.Windows.Forms;
 using System.Xml;
 using Microsoft.SqlServer.Dts.Runtime;
+using DocumentFormat.OpenXml;
+using DocumentFormat.OpenXml.Packaging;
+using DocumentFormat.OpenXml.Spreadsheet;
+using Excel = Microsoft.Office.Interop.Excel;
+
+//using Excel = Microsoft.Office.Interop.Excel;
 
 namespace Driver
 {
@@ -133,6 +141,27 @@ namespace Driver
 					}
 				}
 			}
+
+			MessageBox.Show(@"Done!");
+		}
+
+		private void xmlToCsvButton_Click(object sender, EventArgs e)
+		{
+			//var xmlFileName = @"C:\Users\shane.hopcroft\Desktop\FlowTest\output\organisations-list.xml";
+			//var xmlFileName = @"C:\Users\shane.hopcroft\Desktop\FlowTest\output\dataset.xml";
+			var xmlFileName = @"C:\Users\shane.hopcroft\Desktop\FlowTest\output\program_a317236.xml";
+			var targetFileName = Path.ChangeExtension(xmlFileName, "csv");
+
+			var excelApplication = new Excel.Application
+			{
+				DisplayAlerts = false,
+			};
+			var excelWorkBook = excelApplication.Workbooks.OpenXML(xmlFileName, Type.Missing, Excel.XlXmlLoadOption.xlXmlLoadOpenXml);
+
+			excelWorkBook.SaveAs(targetFileName, Excel.XlFileFormat.xlCSV, Type.Missing, Type.Missing, Type.Missing, Type.Missing);
+			
+			excelWorkBook.Close();
+			excelApplication.Workbooks.Close();
 
 			MessageBox.Show(@"Done!");
 		}

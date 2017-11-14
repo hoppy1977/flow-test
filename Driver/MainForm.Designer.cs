@@ -31,6 +31,7 @@
 			this.executeButton = new System.Windows.Forms.Button();
 			this.closeButton = new System.Windows.Forms.Button();
 			this.splitFileButton = new System.Windows.Forms.Button();
+			this.xmlToCsvButton = new System.Windows.Forms.Button();
 			this.SuspendLayout();
 			// 
 			// executeButton
@@ -63,11 +64,22 @@
 			this.splitFileButton.UseVisualStyleBackColor = true;
 			this.splitFileButton.Click += new System.EventHandler(this.splitFileButton_Click);
 			// 
+			// xmlToCsvButton
+			// 
+			this.xmlToCsvButton.Location = new System.Drawing.Point(242, 94);
+			this.xmlToCsvButton.Name = "xmlToCsvButton";
+			this.xmlToCsvButton.Size = new System.Drawing.Size(75, 23);
+			this.xmlToCsvButton.TabIndex = 3;
+			this.xmlToCsvButton.Text = "&XML to CSV";
+			this.xmlToCsvButton.UseVisualStyleBackColor = true;
+			this.xmlToCsvButton.Click += new System.EventHandler(this.xmlToCsvButton_Click);
+			// 
 			// MainForm
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.ClientSize = new System.Drawing.Size(552, 350);
+			this.Controls.Add(this.xmlToCsvButton);
 			this.Controls.Add(this.splitFileButton);
 			this.Controls.Add(this.closeButton);
 			this.Controls.Add(this.executeButton);
@@ -82,6 +94,7 @@
 		private System.Windows.Forms.Button executeButton;
 		private System.Windows.Forms.Button closeButton;
 		private System.Windows.Forms.Button splitFileButton;
+		private System.Windows.Forms.Button xmlToCsvButton;
 	}
 }
 
