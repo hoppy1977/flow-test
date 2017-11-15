@@ -1,13 +1,10 @@
 ﻿using System;
-using System.Data;
+using log4net;
 using System.IO;
-using System.Linq;
 using System.Windows.Forms;
 using System.Xml;
+using System.Xml.Linq;
 using Microsoft.SqlServer.Dts.Runtime;
-using DocumentFormat.OpenXml;
-using DocumentFormat.OpenXml.Packaging;
-using DocumentFormat.OpenXml.Spreadsheet;
 using Excel = Microsoft.Office.Interop.Excel;
 
 //using Excel = Microsoft.Office.Interop.Excel;
@@ -16,8 +13,11 @@ namespace Driver
 {
 	public partial class MainForm : Form
 	{
+		private readonly ILog _logger;
+
 		public MainForm()
 		{
+			_logger = LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
 			InitializeComponent();
 		}
 
@@ -44,112 +44,177 @@ namespace Driver
 			Close();
 		}
 
+		internal string GetWorkingFolder(string inputFile)
+		{
+			var parentDirectory = Directory.GetParent(inputFile).FullName;
+			var workingFolder = Path.Combine(parentDirectory, "Output");
+
+			return workingFolder;
+		}
+
 		private void splitFileButton_Click(object sender, EventArgs e)
 		{
-			var path = @"C:\Users\shane.hopcroft\Desktop\FlowTest"; // TODO:
-			var outputPath = Path.Combine(path, "output");
-			Directory.CreateDirectory(outputPath);
-			var originalFileName = Path.Combine(path, "sch-2017-09-01-r1.xml");
+			var inputFile = @"C:\Users\shane\Desktop\FlowTest\sch-2017-09-01-r1.xml";
+			var outputFolder = GetWorkingFolder(inputFile);
+			Directory.CreateDirectory(outputFolder);
 
-			using (var reader = XmlReader.Create(originalFileName))
+			SplitOutInfoElement(inputFile, outputFolder);
+			SplitOutProgramElements(inputFile, outputFolder);
+			SplitOutValuesListElement(inputFile, outputFolder);
+			SplitOutDrugsListElement(inputFile, outputFolder);
+			SplitOutOrganisationsListElement(inputFile, outputFolder);
+
+			MessageBox.Show(@"Done!");
+		}
+
+internal void SplitOutInfoElement(string inputFileName, string outputFolder)
+		{
+			_logger.Info("Processing info element started");
+
+			using (var reader = XmlReader.Create(inputFileName))
 			{
-				while (reader.Read())
+				if (reader.ReadToFollowing("root"))
 				{
-					if (reader.NodeType != XmlNodeType.Element)
-					{
-						continue;
-					}
-
-					Console.WriteLine(reader.Name); // TODO:
-
-					if (reader.Name == "info")
+					if (reader.ReadToDescendant("info"))
 					{
 						var element = reader.ReadSubtree();
-
-						using (var fileStream = File.OpenWrite(Path.Combine(outputPath, $"{reader.Name}.xml")))
-						{
-							using (var writer = XmlWriter.Create(fileStream))
-							{
-								writer.WriteNode(element, true);
-							}
-						}
+						WriteXmlToFile(Path.Combine(outputFolder, reader.Name + ".xml"), element);
 					}
-					else if (reader.Name == "schedule")
+				}
+			}
+
+			_logger.Info("Processing info element completed");
+		}
+
+		internal void SplitOutProgramElements(string inputFileName, string outputFolder)
+		{
+			_logger.Info("Processing program elements started");
+
+			using (var reader = XmlReader.Create(inputFileName))
+			{
+				if (reader.ReadToFollowing("root"))
+				{
+					if (reader.ReadToDescendant("schedule"))
 					{
-						using (var scheduleReader = XmlReader.Create(originalFileName))
+						if (reader.ReadToDescendant("program"))
 						{
-							while (scheduleReader.Read())
+							do
 							{
-								Console.WriteLine("***" + scheduleReader.Name); // TODO:
+								var element = reader.ReadSubtree();
+								var programCode = GetProgramCode(ref element);
 
-								if (scheduleReader.NodeType != XmlNodeType.Element)
-								{
-									continue;
-								}
-
-								if (scheduleReader.Name == "program")
-								{
-									var element = scheduleReader.ReadSubtree();
-
-									var id = scheduleReader.GetAttribute("xml:id");
-									using (var fileStream = File.OpenWrite(Path.Combine(outputPath, $"{scheduleReader.Name}_{id}.xml")))
-									{
-										using (var writer = XmlWriter.Create(fileStream))
-										{
-											writer.WriteNode(element, true);
-										}
-									}
-								}
-								else if (scheduleReader.Name == "values-list")
-								{
-									var element = scheduleReader.ReadSubtree();
-
-									using (var fileStream = File.OpenWrite(Path.Combine(outputPath, $"{scheduleReader.Name}.xml")))
-									{
-										using (var writer = XmlWriter.Create(fileStream))
-										{
-											writer.WriteNode(element, true);
-										}
-									}
-								}
-							}
-						}
-					}
-					else if (reader.Name == "drugs-list")
-					{
-						var element = reader.ReadSubtree();
-
-						using (var fileStream = File.OpenWrite(Path.Combine(outputPath, $"{reader.Name}.xml")))
-						{
-							using (var writer = XmlWriter.Create(fileStream))
-							{
-								writer.WriteNode(element, true);
-							}
-						}
-					}
-					else if (reader.Name == "organisations-list")
-					{
-						var element = reader.ReadSubtree();
-
-						using (var fileStream = File.OpenWrite(Path.Combine(outputPath, $"{reader.Name}.xml")))
-						{
-							using (var writer = XmlWriter.Create(fileStream))
-							{
-								writer.WriteNode(element, true);
-							}
+								WriteXmlToFile(Path.Combine(outputFolder, reader.Name + "_" + programCode + ".xml"), element);
+							} while (reader.ReadToNextSibling("program"));
 						}
 					}
 				}
 			}
 
-			MessageBox.Show(@"Done!");
+			_logger.Info("Processing program elements completed");
+		}
+
+		private string GetProgramCode(ref XmlReader programReader)
+		{
+			// https://pmouse.wordpress.com/2008/11/24/seeking-with-xmlreader-and-linq-to-xml/
+
+			var xElement = XElement.Load(programReader);
+			programReader.Close();
+			programReader = xElement.CreateReader();
+
+			string programCode = "-";
+
+			// Here you can peek ahead
+			if (programReader.ReadToFollowing("info"))
+			{
+				if (programReader.ReadToDescendant("code"))
+				{
+					programReader.Read();
+					programCode = programReader.Value;
+				}
+			}
+
+			// and here the reader gets reset to the beginning
+			programReader.Close();
+			programReader = xElement.CreateReader();
+
+			return programCode;
+		}
+
+		internal void SplitOutValuesListElement(string inputFileName, string outputFolder)
+		{
+			_logger.Info("Processing values-list element started");
+
+			using (var reader = XmlReader.Create(inputFileName))
+			{
+				if (reader.ReadToFollowing("root"))
+				{
+					if (reader.ReadToDescendant("schedule"))
+					{
+						if (reader.ReadToDescendant("values-list"))
+						{
+							var element = reader.ReadSubtree();
+							WriteXmlToFile(Path.Combine(outputFolder, reader.Name + ".xml"), element);
+						}
+					}
+				}
+			}
+
+			_logger.Info("Processing values-list element completed");
+		}
+
+		internal void SplitOutDrugsListElement(string inputFileName, string outputFolder)
+		{
+			_logger.Info("Processing drugs-list element started");
+
+			using (var reader = XmlReader.Create(inputFileName))
+			{
+				if (reader.ReadToFollowing("root"))
+				{
+					if (reader.ReadToDescendant("drugs-list"))
+					{
+						var element = reader.ReadSubtree();
+						WriteXmlToFile(Path.Combine(outputFolder, reader.Name + ".xml"), element);
+					}
+				}
+			}
+
+			_logger.Info("Processing drugs-list element completed");
+		}
+
+		internal void SplitOutOrganisationsListElement(string inputFileName, string outputFolder)
+		{
+			_logger.Info("Processing organisations-list element started");
+
+			using (var reader = XmlReader.Create(inputFileName))
+			{
+				if (reader.ReadToFollowing("root"))
+				{
+					if (reader.ReadToDescendant("organisations-list"))
+					{
+						var element = reader.ReadSubtree();
+						WriteXmlToFile(Path.Combine(outputFolder, reader.Name + ".xml"), element);
+					}
+				}
+			}
+
+			_logger.Info("Processing organisations-list element completed");
+		}
+
+		internal void WriteXmlToFile(string fileName, XmlReader element)
+		{
+			using (var fileStream = File.OpenWrite(fileName))
+			{
+				using (var writer = XmlWriter.Create(fileStream))
+				{
+					writer.WriteNode(element, true);
+				}
+			}
 		}
 
 		private void xmlToCsvButton_Click(object sender, EventArgs e)
 		{
-			//var xmlFileName = @"C:\Users\shane.hopcroft\Desktop\FlowTest\output\organisations-list.xml";
-			//var xmlFileName = @"C:\Users\shane.hopcroft\Desktop\FlowTest\output\dataset.xml";
-			var xmlFileName = @"C:\Users\shane.hopcroft\Desktop\FlowTest\output\program_a317236.xml";
+			//var xmlFileName = @"C:\Users\shane\Desktop\FlowTest\Output\organisations-list.xml";
+			var xmlFileName = @"C:\Users\shane\Desktop\FlowTest\Output\program_CA.xml";
 			var targetFileName = Path.ChangeExtension(xmlFileName, "csv");
 
 			var excelApplication = new Excel.Application
