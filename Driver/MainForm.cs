@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using log4net;
 using System.IO;
 using System.Windows.Forms;
@@ -58,11 +59,11 @@ namespace Driver
 			var outputFolder = GetWorkingFolder(inputFile);
 			Directory.CreateDirectory(outputFolder);
 
-			SplitOutInfoElement(inputFile, outputFolder);
+			//SplitOutInfoElement(inputFile, outputFolder);
 			SplitOutProgramElements(inputFile, outputFolder);
-			SplitOutValuesListElement(inputFile, outputFolder);
-			SplitOutDrugsListElement(inputFile, outputFolder);
-			SplitOutOrganisationsListElement(inputFile, outputFolder);
+			//SplitOutValuesListElement(inputFile, outputFolder);
+			//SplitOutDrugsListElement(inputFile, outputFolder);
+			//SplitOutOrganisationsListElement(inputFile, outputFolder);
 
 			MessageBox.Show(@"Done!");
 		}
@@ -103,6 +104,9 @@ internal void SplitOutInfoElement(string inputFileName, string outputFolder)
 								var element = reader.ReadSubtree();
 								var programCode = GetProgramCode(ref element);
 
+								// First of all work pull out all the prescribing rules into 
+								var prescribingRules = ExtractPrescribingRules(ref element);
+
 								WriteXmlToFile(Path.Combine(outputFolder, reader.Name + "_" + programCode + ".xml"), element);
 							} while (reader.ReadToNextSibling("program"));
 						}
@@ -138,6 +142,24 @@ internal void SplitOutInfoElement(string inputFileName, string outputFolder)
 			programReader = xElement.CreateReader();
 
 			return programCode;
+		}
+
+		internal IEnumerable<XmlReader> ExtractPrescribingRules(ref XmlReader programReader)
+		{
+			var xElement = XElement.Load(programReader);
+			programReader.Close();
+			programReader = xElement.CreateReader();
+
+			do
+			{
+				programReader.ReadToFollowing("prescribing-rule");
+
+				 var x = programReader.ReadSubtree();
+
+			} while (programReader.ReadToNextSibling("prescribing-rule"));
+			
+			// TODO:
+			return null;
 		}
 
 		internal void SplitOutValuesListElement(string inputFileName, string outputFolder)
